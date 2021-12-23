@@ -5,7 +5,7 @@ from sys import byteorder, hash_info, stdin
 
 SEVERITY = {
     "note": "info",
-    "error": "error",
+    "error": "major",
 }
 
 
@@ -20,7 +20,7 @@ def parse_line(line: str) -> dict | None:
     return {
         "description": match["description"],
         "fingerprint": get_hash(match.groups()),
-        "severity": SEVERITY.get(match["error_level"], "error"),
+        "severity": SEVERITY.get(match["error_level"], "unknown"),
         "location": {
             "path": match["path"],
             "lines": {
