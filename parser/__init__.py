@@ -1,6 +1,7 @@
 import json
 import re
 from base64 import b64encode
+from collections.abc import Hashable, Sequence
 from sys import byteorder, hash_info, stdin
 
 SEVERITY = {
@@ -9,14 +10,14 @@ SEVERITY = {
 }
 
 
-def get_hash(tpl: tuple) -> str:
+def get_hash(tpl: Sequence[Hashable]) -> str:
     return b64encode(hash(tpl).to_bytes(hash_info.width // 8, byteorder, signed=True)).decode()
 
 
-def parse_line(line: str) -> dict | None:
+def parse_line(line: str) -> dict[str, str | dict[str, str | dict[str, int]]] | None:
     match = re.fullmatch(r"(?P<path>.+?):(?P<line>\d+):(?:\d+:)?\s(?P<error_level>\w+):\s(?P<description>.+)", line)
     if match is None:
-        return
+        return None
     return {
         "description": match["description"],
         "fingerprint": get_hash(match.groups()),
