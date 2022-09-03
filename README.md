@@ -1,6 +1,7 @@
 ![Gitlab-CI](https://img.shields.io/badge/GitLab_CI-indigo?logo=gitlab)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mypy-gitlab-code-quality)
 [![PyPI](https://img.shields.io/pypi/v/mypy-gitlab-code-quality)](https://pypi.org/project/mypy-gitlab-code-quality/)
+[![Downloads](https://pepy.tech/badge/mypy-gitlab-code-quality/month)](https://pepy.tech/project/mypy-gitlab-code-quality)
 ![PyPI - License](https://img.shields.io/pypi/l/mypy-gitlab-code-quality)
 # mypy-gitlab-code-quality
 Simple script to generate [gitlab code quality report](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html)
