@@ -22,7 +22,7 @@ def get_hash(tpl: Sequence[Hashable]) -> str:
 def is_info_to_previous_issue(
     issues: list[dict], severity: str, lineNumber: int
 ) -> bool:
-    return (severity == "info") and (
+    return issues and (severity == "info") and (
         issues[-1]["location"]["lines"]["begin"] == lineNumber
     )
 
