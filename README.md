@@ -13,7 +13,7 @@ Example gitlab codequality report from [gitlab documentation](https://docs.gitla
 # Usage
 `$ mypy program.py | PYTHONHASHSEED=0 mypy-gitlab-code-quality`
 
-This command send to `STDOUT` generated json that can be used as Code Quality report artifact.
+This command send to `STDOUT` generated json that can be used as Code Quality report artifact. When `--re-print` argument is used, script will print its input to `STDERR` which is useful if the `STDIN` needs to be preserved.
 
 **Note: Set environment variable `PYTHONHASHSEED` to `0` to prevent randomize hashes.**
 Constant hashes allow gitlab to determine diff between branches on merge request.

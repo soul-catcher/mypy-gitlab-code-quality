@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from base64 import b64encode
 from collections.abc import Hashable, Sequence
 from sys import byteorder, hash_info, stdin
@@ -53,10 +54,11 @@ def append_line_to_issues(
         )
 
 
-def parse_lines(lines: TextIO) -> list[dict]:
+def parse_lines(lines: TextIO, re_print: bool) -> list[dict]:
     issues: list[dict] = []
     for line in lines:
         line = line.rstrip("\n")
+        re_print and print(line, file=sys.stderr)
         match = re.fullmatch(
             r"(?P<path>.+?)"
             r":(?P<line>\d+)"
@@ -80,7 +82,7 @@ def parse_lines(lines: TextIO) -> list[dict]:
 def main() -> None:
     print(
         json.dumps(
-            parse_lines(stdin),
+            parse_lines(stdin, "--re-print" in sys.argv[1:]),
             indent="\t",
         )
     )
