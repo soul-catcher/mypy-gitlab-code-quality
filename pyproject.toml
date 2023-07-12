@@ -1,3 +1,32 @@
+[project]
+name = "mypy-gitlab-code-quality"
+version = "0.0.15"
+description = "Simple script to generate gitlab code quality report from output of mypy."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Dmitry Samsonov", email = "dmitriy.samsonov28@gmail.com" },
+    { name = "OokamiTheLord" },
+]
+keywords = ["gitlab", "gitlab-ci", "mypy", "codequality"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+[project.urls]
+"Homepage" = "https://github.com/soul-catcher/mypy-gitlab-code-quality"
+"Bug Tracker" = "https://github.com/soul-catcher/mypy-gitlab-code-quality/issues"
+[project.scripts]
+mypy-gitlab-code-quality = "mypy_gitlab_code_quality:main"
+
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
