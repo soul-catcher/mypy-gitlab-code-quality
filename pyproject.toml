@@ -29,3 +29,18 @@ mypy-gitlab-code-quality = "mypy_gitlab_code_quality:main"
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+strict = true
+python_version = "3.8"
+
+[tool.ruff]
+select = ["ALL"]
+ignore = [
+    "D1", # Docstrings
+    "T201", # Print
+]
+pydocstyle.convention = "pep257"
+
+[tool.black]
+target-versions = ["py38", "py39", "py310", "py311"]
