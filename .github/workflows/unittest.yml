@@ -1,0 +1,19 @@
+name: Run unit tests
+
+on:
+  push:
+    branches: ['main', 'develop']
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Unittest
+        run: 'python -m unittest'
