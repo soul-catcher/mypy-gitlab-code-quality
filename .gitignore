@@ -1,4 +1,6 @@
 .idea/
 .mypy_cache/
 .ruff_cache/
+*.egg-info/
+dist/
 venv/
