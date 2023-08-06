@@ -1,6 +1,6 @@
 [project]
 name = "mypy-gitlab-code-quality"
-version = "0.0.15"
+version = "1.0.0"
 description = "Simple script to generate gitlab code quality report from output of mypy."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -11,7 +11,7 @@ authors = [
 ]
 keywords = ["gitlab", "gitlab-ci", "mypy", "codequality"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
