@@ -58,6 +58,13 @@ def parse_issue(line: str) -> GitlabIssue | None:
 
 
 def append_or_extend(issues: list[GitlabIssue], new: GitlabIssue) -> list[GitlabIssue]:
+    """
+    Extend previous issue with description of new one in case of "note" error level.
+
+    It is useful to extend error issues with note issues to prevent inconsistent view
+    of code quality widget. For more information see
+    https://github.com/soul-catcher/mypy-gitlab-code-quality/pull/3
+    """
     is_extend_previous = (
         new["severity"] == Severity.info
         and issues
