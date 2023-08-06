@@ -3,6 +3,8 @@
 [![PyPI](https://img.shields.io/pypi/v/mypy-gitlab-code-quality)](https://pypi.org/project/mypy-gitlab-code-quality/)
 [![Downloads](https://pepy.tech/badge/mypy-gitlab-code-quality/month)](https://pepy.tech/project/mypy-gitlab-code-quality)
 ![PyPI - License](https://img.shields.io/pypi/l/mypy-gitlab-code-quality)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 # mypy-gitlab-code-quality
 Simple script to generate [gitlab code quality report](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html)
 from output of [mypy](http://www.mypy-lang.org/).
