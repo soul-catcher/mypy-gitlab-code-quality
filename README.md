@@ -49,3 +49,13 @@ codequality:
   allow_failure: true
 ```
 Note: if you want to use this example you should replace `program.py` with yours module names.
+
+# Contributing
+Please run linters before creating merge request
+```shell
+pip install requirements/dev.txt
+black .
+mypy .
+ruff .
+```
+Suggestions and merge requests are always welcome :)
