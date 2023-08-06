@@ -2,86 +2,78 @@ from __future__ import annotations
 
 import json
 import re
-from base64 import b64encode
-from sys import byteorder, hash_info, stdin
-from typing import TYPE_CHECKING, TextIO
-
-if TYPE_CHECKING:
-    from collections.abc import Hashable, Sequence
-
-SEVERITY = {
-    "note": "info",
-    "error": "major",
-}
+from enum import Enum
+from functools import reduce
+from sys import stdin, stdout
+from typing import Iterable, TypedDict
 
 
-def get_hash(tpl: Sequence[Hashable]) -> str:
-    return b64encode(
-        hash(tpl).to_bytes(hash_info.width // 8, byteorder, signed=True),
-    ).decode()
+class Severity(str, Enum):
+    major = "major"
+    info = "info"
+    unknown = "unknown"
 
 
-def is_info_to_previous_issue(
-    issues: list[dict],
-    severity: str,
-    line_number: int,
-) -> bool:
-    return (
-        issues
-        and (severity == "info")
-        and (issues[-1]["location"]["lines"]["begin"] == line_number)
+class GitlabIssueLines(TypedDict):
+    begin: int
+
+
+class GitlabIssueLocation(TypedDict):
+    path: str
+    lines: GitlabIssueLines
+
+
+class GitlabIssue(TypedDict):
+    description: str
+    check_name: str | None
+    fingerprint: str
+    severity: Severity
+    location: GitlabIssueLocation
+
+
+def parse_issue(line: str) -> GitlabIssue | None:
+    match = re.fullmatch(
+        r"(?P<path>.+?)"
+        r":(?P<line_number>\d+)(?::\d+)?"  # ignore column number if exists
+        r":\s(?P<error_level>\w+)"
+        r":\s(?P<description>.+?)"
+        r"(?:\s\s\[(?P<error_code>.*)])?",
+        line,
     )
-
-
-def append_line_to_issues(
-    issues: list[dict],
-    fingerprint: str,
-    severity: str,
-    line_number: int,
-    description: str,
-    path: str,
-) -> None:
-    if is_info_to_previous_issue(issues, severity, line_number):
-        issues[-1]["description"] += f"\n{description}"
-    else:
-        issues.append(
-            {
-                "description": description,
-                "fingerprint": fingerprint,
-                "severity": severity,
-                "location": {
-                    "path": path,
-                    "lines": {
-                        "begin": line_number,
-                    },
-                },
+    if match is None:
+        return None
+    error_levels_table = {"error": Severity.major, "note": Severity.info}
+    return {
+        "description": match["description"],
+        "check_name": match["error_code"],
+        "fingerprint": str(hash(line)),
+        "severity": error_levels_table.get(match["error_level"], Severity.unknown),
+        "location": {
+            "path": match["path"],
+            "lines": {
+                "begin": int(match["line_number"]),
             },
-        )
+        },
+    }
 
 
-def parse_lines(lines: TextIO) -> list[dict]:
-    issues: list[dict] = []
-    for line in lines:
-        line = line.rstrip("\n")
-        match = re.fullmatch(
-            r"(?P<path>.+?)"
-            r":(?P<line>\d+)"
-            r":(?:\d+:)?\s(?P<error_level>\w+)"
-            r":\s(?P<description>.+)",
-            line,
-        )
-        if match is None:
-            continue
-        fingerprint: str = get_hash(match.groups())
-        severity: str = SEVERITY.get(match["error_level"], "unknown")
-        line_number: int = int(match["line"])
-        description: str = match["description"]
-        path: str = match["path"]
-        append_line_to_issues(
-            issues, fingerprint, severity, line_number, description, path
-        )
+def append_or_extend(issues: list[GitlabIssue], new: GitlabIssue) -> list[GitlabIssue]:
+    is_extend_previous = (
+        new["severity"] == Severity.info
+        and issues
+        and issues[-1]["location"] == new["location"]
+    )
+    if is_extend_previous:
+        issues[-1]["description"] += "\n" + new["description"]
+    else:
+        issues.append(new)
     return issues
 
 
+def generate_report(lines: Iterable[str]) -> list[GitlabIssue]:
+    issues = filter(None, map(parse_issue, lines))
+    return reduce(append_or_extend, issues, [])
+
+
 def main() -> None:
-    print(json.dumps(parse_lines(stdin), indent="\t"))
+    json.dump(generate_report(map(str.rstrip, stdin)), stdout, indent="\t")

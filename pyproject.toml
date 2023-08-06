@@ -33,12 +33,15 @@ build-backend = "setuptools.build_meta"
 [tool.mypy]
 strict = true
 python_version = "3.8"
+exclude = ['test.*\.py']
 
 [tool.ruff]
 select = ["ALL"]
 ignore = [
-    "D1", # Docstrings
-    "T201", # Print
+    "D1",  # Docstrings
+    "PT",  # Pytest. Project uses Unittest
+    "ANN",  # annotations. There is Mypy in project
+    "COM",  # Comma checks, Just trust Black
 ]
 pydocstyle.convention = "pep257"
 
