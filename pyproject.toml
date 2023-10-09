@@ -19,6 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 [project.urls]
 "Homepage" = "https://github.com/soul-catcher/mypy-gitlab-code-quality"
@@ -46,4 +47,4 @@ ignore = [
 pydocstyle.convention = "pep257"
 
 [tool.black]
-target-versions = ["py38", "py39", "py310", "py311"]
+target-versions = ["py38", "py39", "py310", "py311", "py312"]
