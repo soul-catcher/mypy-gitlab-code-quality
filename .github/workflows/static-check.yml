@@ -27,8 +27,8 @@ jobs:
             .ruff_cache
 
       - name: Black
-        run: 'black . --diff --color'
+        run: 'black . --diff --color --check'
       - name: Ruff
-        run: 'ruff . --format github'
+        run: 'ruff . --output-format github'
       - name: Mypy
         run: 'mypy .'
