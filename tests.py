@@ -8,9 +8,13 @@ class ParseIssueTestCase(unittest.TestCase):
         issue = parse_issue("dir/module.py:2: error: Description")
         self.assertEqual("dir/module.py", issue["location"]["path"])
 
-    def test_line_nuber(self):
+    def test_line_number(self):
         issue = parse_issue("module.py:2: error: Description")
         self.assertEqual(2, issue["location"]["lines"]["begin"])
+
+    def test_fingerprint(self):
+        issue = parse_issue("module.py:2: error: Description")
+        self.assertEqual("a19285c6cdf4dafe237cc5d2de6c0308", issue["fingerprint"])
 
     def test_error_level_error(self):
         issue = parse_issue("module.py:2: error: Description")
