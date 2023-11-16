@@ -1,6 +1,6 @@
 [project]
 name = "mypy-gitlab-code-quality"
-version = "1.0.0"
+version = "1.1.0"
 description = "Simple script to generate gitlab code quality report from output of mypy."
 readme = "README.md"
 requires-python = ">=3.8"
