@@ -14,12 +14,9 @@ Example gitlab codequality report from [gitlab documentation](https://docs.gitla
 ![Example gitlab codequality report](https://docs.gitlab.com/ee/ci/testing/img/code_quality_widget_13_11.png)
 
 # Usage
-`$ mypy program.py | PYTHONHASHSEED=0 mypy-gitlab-code-quality`
+`$ mypy program.py | mypy-gitlab-code-quality`
 
 This command send to `STDOUT` generated json that can be used as Code Quality report artifact.
-
-**Note: Set environment variable `PYTHONHASHSEED` to `0` to prevent randomize hashes.**
-Constant hashes allow gitlab to determine diff between branches on merge request.
 
 ## Example .gitlab-ci.yml
 ```yaml
