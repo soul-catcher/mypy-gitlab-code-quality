@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from enum import Enum
@@ -42,11 +43,12 @@ def parse_issue(line: str) -> GitlabIssue | None:
     )
     if match is None:
         return None
+    fingerprint = hashlib.md5(line.encode("utf-8")).hexdigest()
     error_levels_table = {"error": Severity.major, "note": Severity.info}
     return {
         "description": match["description"],
         "check_name": match["error_code"],
-        "fingerprint": str(hash(line)),
+        "fingerprint": fingerprint,
         "severity": error_levels_table.get(match["error_level"], Severity.unknown),
         "location": {
             "path": match["path"],
