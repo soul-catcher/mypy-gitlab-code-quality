@@ -39,7 +39,7 @@ codequality:
   script:
     - pip install mypy mypy-gitlab-code-quality
     - mypy program.py --no-error-summary > mypy-out.txt || true  # "|| true" is used for preventing job fail when mypy find errors
-    - PYTHONHASHSEED=0 mypy-gitlab-code-quality < mypy-out.txt > codequality.json
+    - mypy-gitlab-code-quality < mypy-out.txt > codequality.json
   artifacts:
     when: always
     reports:
