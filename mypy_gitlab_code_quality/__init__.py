@@ -43,7 +43,7 @@ def parse_issue(line: str) -> GitlabIssue | None:
     )
     if match is None:
         return None
-    fingerprint = hashlib.md5(line.encode("utf-8")).hexdigest()
+    fingerprint = hashlib.md5(line.encode("utf-8")).hexdigest()  # noqa: S324
     error_levels_table = {"error": Severity.major, "note": Severity.info}
     return {
         "description": match["description"],
