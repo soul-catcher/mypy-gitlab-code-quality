@@ -41,8 +41,10 @@ select = ["ALL"]
 ignore = [
     "D1",  # Docstrings
     "PT",  # Pytest. Project uses Unittest
-    "ANN",  # annotations. There is Mypy in project
+    "ANN",  # Annotations. There is Mypy in project
     "COM",  # Comma checks, Just trust Black
+    "FIX",  # Check for temporary developer notes
+    "TD003",  # Temporary developer note missing link to issue
 ]
 pydocstyle.convention = "pep257"
 
