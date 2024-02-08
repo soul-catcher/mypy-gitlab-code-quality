@@ -49,4 +49,4 @@ ignore = [
 pydocstyle.convention = "pep257"
 
 [tool.black]
-target-versions = ["py38", "py39", "py310", "py311", "py312"]
+target-version = ["py38", "py39", "py310", "py311", "py312"]
