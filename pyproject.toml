@@ -36,7 +36,7 @@ strict = true
 python_version = "3.8"
 exclude = ['test.*\.py']
 
-[tool.ruff]
+[tool.ruff.lint]
 select = ["ALL"]
 ignore = [
     "D1",  # Docstrings

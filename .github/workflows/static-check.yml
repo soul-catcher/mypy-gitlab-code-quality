@@ -29,6 +29,6 @@ jobs:
       - name: Black
         run: 'black . --diff --color --check'
       - name: Ruff
-        run: 'ruff . --output-format github'
+        run: 'ruff check . --output-format github'
       - name: Mypy
         run: 'mypy .'
