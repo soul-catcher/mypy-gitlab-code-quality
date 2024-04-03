@@ -38,7 +38,7 @@ before_script:
 codequality:
   script:
     - pip install mypy mypy-gitlab-code-quality
-    - mypy program.py --no-error-summary > mypy-out.txt || true  # "|| true" is used for preventing job fail when mypy find errors
+    - mypy program.py --no-pretty > mypy-out.txt || true  # "|| true" is used for preventing job fail when mypy find errors
     - mypy-gitlab-code-quality < mypy-out.txt > codequality.json
   artifacts:
     when: always
