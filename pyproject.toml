@@ -42,11 +42,9 @@ ignore = [
     "D1",  # Docstrings
     "PT",  # Pytest. Project uses Unittest
     "ANN",  # Annotations. There is Mypy in project
-    "COM",  # Comma checks, Just trust Black
     "FIX",  # Check for temporary developer notes
     "TD003",  # Temporary developer note missing link to issue
+    "COM812",  # Comma checks. Conflicts with Ruff formatter
+    "ISC001",  # Implicit string concatenation. Conflicts with ruff formatter
 ]
 pydocstyle.convention = "pep257"
-
-[tool.black]
-target-version = ["py38", "py39", "py310", "py311", "py312"]
