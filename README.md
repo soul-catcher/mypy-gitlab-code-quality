@@ -20,20 +20,6 @@ This command send to `STDOUT` generated json that can be used as Code Quality re
 ## Example .gitlab-ci.yml
 ```yaml
 image: python:alpine
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-cache:
-  paths:
-    - .cache/pip/
-    - venv/
-    - .mypy_cache/
-
-before_script:
-  - python --version  # For debugging
-  - python -m venv venv
-  - . venv/bin/activate
-
 codequality:
   script:
     - pip install mypy mypy-gitlab-code-quality
