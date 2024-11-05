@@ -9,8 +9,8 @@
 Simple script to generate [gitlab code quality report](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html)
 from output of [mypy](http://www.mypy-lang.org/).
 
-Example gitlab codequality report from [gitlab documentation](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#code-quality-widget):
-![Example gitlab codequality report](https://docs.gitlab.com/ee/ci/testing/img/code_quality_widget_13_11.png)
+Example gitlab codequality report from [gitlab documentation](https://docs.gitlab.com/ee/ci/testing/code_quality.html#merge-request-widget):
+![Example gitlab codequality widget](https://docs.gitlab.com/ee/ci/testing/img/code_quality_widget_v13_11.png)
 
 # Usage
 `$ mypy program.py | mypy-gitlab-code-quality`
