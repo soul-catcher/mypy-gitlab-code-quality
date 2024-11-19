@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from enum import Enum
 from functools import reduce
@@ -33,14 +34,22 @@ class GitlabIssue(TypedDict):
 
 
 def parse_issue(line: str) -> GitlabIssue | None:
-    match = re.fullmatch(
-        r"(?P<path>.+?)"
-        r":(?P<line_number>\d+)(?::\d+)?"  # ignore column number if exists
-        r":\s(?P<error_level>\w+)"
-        r":\s(?P<description>.+?)"
-        r"(?:\s\s\[(?P<error_code>.*)])?",
-        line,
-    )
+    if line.startswith("{"):
+        try:
+            match = json.loads(line)
+        except json.JSONDecodeError:
+            match = None
+        if hint := match.get("hint"):  # attach hint to message
+            match["message"] += os.linesep + hint
+    else:
+        match = re.fullmatch(
+            r"(?P<file>.+?)"
+            r":(?P<line>\d+)(?::\d+)?"  # ignore column number if exists
+            r":\s(?P<severity>\w+)"
+            r":\s(?P<message>.+?)"
+            r"(?:\s\s\[(?P<code>.*)])?",
+            line,
+        )
     if match is None:
         return None
     # TODO(soul-catcher): add usedforsecurity=False and remove noqa
@@ -48,14 +57,14 @@ def parse_issue(line: str) -> GitlabIssue | None:
     fingerprint = hashlib.md5(line.encode("utf-8")).hexdigest()  # noqa: S324
     error_levels_table = {"error": Severity.major, "note": Severity.info}
     return {
-        "description": match["description"],
-        "check_name": match["error_code"],
+        "description": match["message"],
+        "check_name": match["code"],
         "fingerprint": fingerprint,
-        "severity": error_levels_table.get(match["error_level"], Severity.unknown),
+        "severity": error_levels_table.get(match["severity"], Severity.unknown),
         "location": {
-            "path": match["path"],
+            "path": match["file"],
             "lines": {
-                "begin": int(match["line_number"]),
+                "begin": int(match["line"]),
             },
         },
     }
