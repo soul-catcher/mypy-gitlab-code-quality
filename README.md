@@ -13,9 +13,13 @@ Example gitlab codequality report from [gitlab documentation](https://docs.gitla
 ![Example gitlab codequality widget](https://docs.gitlab.com/ee/ci/testing/img/code_quality_widget_v13_11.png)
 
 # Usage
-`$ mypy program.py | mypy-gitlab-code-quality`
+`$ mypy program.py --output=json | mypy-gitlab-code-quality`
 
 This command send to `STDOUT` generated json that can be used as Code Quality report artifact.
+
+Also, this script supports plain text output parsing for backward compatability but json is recommended
+
+`$ mypy program.py | mypy-gitlab-code-quality`
 
 ## Example .gitlab-ci.yml
 ```yaml
@@ -23,8 +27,8 @@ image: python:alpine
 codequality:
   script:
     - pip install mypy mypy-gitlab-code-quality
-    - mypy program.py --no-pretty > mypy-out.txt || true  # "|| true" is used for preventing job fail when mypy find errors
-    - mypy-gitlab-code-quality < mypy-out.txt > codequality.json
+    - mypy program.py --output=json > mypy-out.json || true  # "|| true" is used for preventing job fail when mypy find errors
+    - mypy-gitlab-code-quality < mypy-out.json > codequality.json
   artifacts:
     when: always
     reports:
@@ -33,11 +37,11 @@ codequality:
 Note: if you want to use this example you should replace `program.py` with yours module names.
 
 # Contributing
-Please run linters before creating merge request
+Please run linters before creating pull request
 ```shell
 pip install requirements/dev.txt
 mypy .
 ruff check
 ruff format
 ```
-Suggestions and merge requests are always welcome :)
+Suggestions and pull requests are always welcome :)

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import re
 from enum import Enum
 from functools import reduce
@@ -40,7 +39,7 @@ def parse_issue(line: str) -> GitlabIssue | None:
         except json.JSONDecodeError:
             match = None
         if hint := match.get("hint"):  # attach hint to message
-            match["message"] += os.linesep + hint
+            match["message"] += "\n" + hint
     else:
         match = re.fullmatch(
             r"(?P<file>.+?)"
