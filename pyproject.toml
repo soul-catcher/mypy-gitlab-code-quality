@@ -1,9 +1,9 @@
 [project]
 name = "mypy-gitlab-code-quality"
-version = "1.1.0"
+version = "1.2.0"
 description = "Simple script to generate gitlab code quality report from output of mypy."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = { file = "LICENSE" }
 authors = [
     { name = "Dmitry Samsonov", email = "dmitriy.samsonov28@gmail.com" },
@@ -15,11 +15,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 [project.urls]
 "Homepage" = "https://github.com/soul-catcher/mypy-gitlab-code-quality"
@@ -33,7 +33,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.mypy]
 strict = true
-python_version = "3.8"
+python_version = "3.9"
 exclude = ['test.*\.py']
 
 [tool.ruff.lint]
@@ -45,6 +45,6 @@ ignore = [
     "FIX",  # Check for temporary developer notes
     "TD003",  # Temporary developer note missing link to issue
     "COM812",  # Comma checks. Conflicts with Ruff formatter
-    "ISC001",  # Implicit string concatenation. Conflicts with ruff formatter
+    "ISC001",  # Implicit string concatenation. Conflicts with Ruff formatter
 ]
 pydocstyle.convention = "pep257"

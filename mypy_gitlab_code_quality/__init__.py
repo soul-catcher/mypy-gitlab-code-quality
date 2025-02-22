@@ -6,7 +6,10 @@ import re
 from enum import Enum
 from functools import reduce
 from sys import stdin, stdout
-from typing import Iterable, TypedDict
+from typing import TYPE_CHECKING, TypedDict
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class Severity(str, Enum):
@@ -51,9 +54,7 @@ def parse_issue(line: str) -> GitlabIssue | None:
         )
     if match is None:
         return None
-    # TODO(soul-catcher): add usedforsecurity=False and remove noqa
-    #                     when python 3.8 will be discontinued
-    fingerprint = hashlib.md5(line.encode("utf-8")).hexdigest()  # noqa: S324
+    fingerprint = hashlib.md5(line.encode("utf-8"), usedforsecurity=False).hexdigest()
     error_levels_table = {"error": Severity.major, "note": Severity.info}
     return {
         "description": match["message"],

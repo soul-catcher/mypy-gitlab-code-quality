@@ -17,7 +17,7 @@ Example gitlab codequality report from [gitlab documentation](https://docs.gitla
 
 This command send to `STDOUT` generated json that can be used as Code Quality report artifact.
 
-Also, this script supports plain text output parsing for backward compatability but json is recommended
+Also, this script supports plain text output parsing for backward compatability but json is recommended.
 
 `$ mypy program.py | mypy-gitlab-code-quality`
 
