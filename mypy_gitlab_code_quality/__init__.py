@@ -35,7 +35,7 @@ class GitlabIssue(TypedDict):
     location: GitlabIssueLocation
 
 
-def parse_issue(line: str) -> GitlabIssue | None:
+def parse_issue(line: str, fingerprints: set[str] | None = None) -> GitlabIssue | None:
     if line.startswith("{"):
         try:
             match = json.loads(line)
@@ -54,17 +54,38 @@ def parse_issue(line: str) -> GitlabIssue | None:
         )
     if match is None:
         return None
-    fingerprint = hashlib.md5(line.encode("utf-8"), usedforsecurity=False).hexdigest()
     error_levels_table = {"error": Severity.major, "note": Severity.info}
+
+    path = match["file"]
+    line_number = int(match["line"])
+    error_level = match["severity"]
+    message = match["message"]
+    error_code = match["code"]
+
+    if fingerprints is None:
+        fingerprints = set()
+
+    def make_fingerprint(salt: str) -> str:
+        fingerprint_text = f"{salt}::{path}::{error_level}::{error_code}::{message}"
+        return hashlib.md5(
+            fingerprint_text.encode("utf-8"),
+            usedforsecurity=False,
+        ).hexdigest()
+
+    fingerprint = make_fingerprint("")
+    while fingerprint in fingerprints:
+        fingerprint = make_fingerprint(fingerprint)
+    fingerprints.add(fingerprint)
+
     return {
-        "description": match["message"],
-        "check_name": match["code"],
+        "description": message,
+        "check_name": error_code,
         "fingerprint": fingerprint,
-        "severity": error_levels_table.get(match["severity"], Severity.unknown),
+        "severity": error_levels_table.get(error_level, Severity.unknown),
         "location": {
-            "path": match["file"],
+            "path": path,
             "lines": {
-                "begin": int(match["line"]),
+                "begin": line_number,
             },
         },
     }
@@ -91,7 +112,8 @@ def append_or_extend(issues: list[GitlabIssue], new: GitlabIssue) -> list[Gitlab
 
 
 def generate_report(lines: Iterable[str]) -> list[GitlabIssue]:
-    issues = filter(None, map(parse_issue, lines))
+    fingerprints: set[str] = set()
+    issues = filter(None, (parse_issue(line, fingerprints) for line in lines))
     return reduce(append_or_extend, issues, [])
 
 

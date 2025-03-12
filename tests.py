@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from mypy_gitlab_code_quality import Severity, parse_issue
@@ -14,7 +15,7 @@ class ParsePlainTextTestCase(unittest.TestCase):
 
     def test_fingerprint(self):
         issue = parse_issue("module.py:2: error: Description")
-        self.assertEqual("a19285c6cdf4dafe237cc5d2de6c0308", issue["fingerprint"])
+        self.assertEqual("d84c90ce1414af244070c71da60f2388", issue["fingerprint"])
 
     def test_error_level_error(self):
         issue = parse_issue("module.py:2: error: Description")
@@ -80,18 +81,21 @@ class ParseJsonTestCase(unittest.TestCase):
         self.assertEqual(2, issue["location"]["lines"]["begin"])
 
     def test_fingerprint(self):
-        issue = parse_issue(
-            r"""{
-                "file": "module.py",
-                "line": 2,
-                "column": 4,
-                "message": "Description",
-                "hint": null,
-                "code": "error-code",
-                "severity": "error"
-            }"""
-        )
-        self.assertEqual("4455bb04f307121aa95a7b3725996837", issue["fingerprint"])
+        fingerprints = set()
+        issue_dict = {
+            "file": "module.py",
+            "line": 2,
+            "column": 4,
+            "message": "Description",
+            "hint": None,
+            "code": "error-code",
+            "severity": "error",
+        }
+        issue = parse_issue(json.dumps(issue_dict), fingerprints)
+        issue_dict["line"] = 3
+        other_issue = parse_issue(json.dumps(issue_dict), fingerprints)
+        self.assertEqual("59d5fc1777dba182a0bcac9dc1bd33a6", issue["fingerprint"])
+        self.assertEqual("895f1dad0c7bb31d7bb4f792b2b16784", other_issue["fingerprint"])
 
     def test_error_level_error(self):
         issue = parse_issue(
