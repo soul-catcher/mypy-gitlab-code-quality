@@ -6,11 +6,12 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 # mypy-gitlab-code-quality
-Simple script to generate [gitlab code quality report](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html)
+Simple script to generate [gitlab code quality report](https://docs.gitlab.com/ci/testing/code_quality/)
 from output of [mypy](http://www.mypy-lang.org/).
 
-Example gitlab codequality report from [gitlab documentation](https://docs.gitlab.com/ee/ci/testing/code_quality.html#merge-request-widget):
-![Example gitlab codequality widget](https://docs.gitlab.com/ee/ci/testing/img/code_quality_widget_v13_11.png)
+Example gitlab codequality widget from [gitlab documentation](https://docs.gitlab.com/ci/testing/code_quality/#merge-request-widget):
+
+![Example gitlab codequality widget](https://docs.gitlab.com/ci/testing/img/code_quality_merge_request_widget_v18_2.png)
 
 # Usage
 `$ mypy program.py --output=json | mypy-gitlab-code-quality`
