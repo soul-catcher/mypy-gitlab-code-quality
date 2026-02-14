@@ -38,11 +38,12 @@ codequality:
 Note: if you want to use this example you should replace `program.py` with yours module names.
 
 # Contributing
-Please run linters before creating pull request
+Please run linters and tests before creating pull request
 ```shell
 pip install requirements/dev.txt
 mypy .
 ruff check
 ruff format
+python -m unittest
 ```
 Suggestions and pull requests are always welcome :)
